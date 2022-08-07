@@ -22,10 +22,20 @@ export default function AllPostsPage(props) {
 }
 
 export function getStaticProps() {
-  // process.cwd() will return the root directory
+  let now = new Date();
+  console.log("getStaticProps was called at ", now.toString());
+
   const filePath = path.join(process.cwd(), 'public', 'posts.json');
   const jsonData = fs.readFileSync(filePath);
   const data = JSON.parse(jsonData);
+
+  if (!data.allPosts) {
+    return {
+      redirect: {
+        destination: '/'
+      }
+    };
+  }
 
   return {
     props: {
