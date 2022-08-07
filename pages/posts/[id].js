@@ -3,9 +3,6 @@ import fs from 'fs/promises';
 
 export default function PostDetailPage(props) {
   const { post } = props;
-  // if (!post) {
-  //   return <p>Loading...</p>;
-  // }
 
   return (
     <h1>Detail Page - {post.title}</h1>
@@ -20,6 +17,10 @@ export async function getStaticProps(context) {
   const data = JSON.parse(jsonData);
 
   const post = data.posts.find(p => p.id === postId);
+  if (!post) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       post
