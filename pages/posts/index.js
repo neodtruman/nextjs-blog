@@ -29,17 +29,10 @@ export function getStaticProps() {
   const jsonData = fs.readFileSync(filePath);
   const data = JSON.parse(jsonData);
 
-  if (!data.allPosts) {
-    return {
-      redirect: {
-        destination: '/'
-      }
-    };
-  }
-
   return {
     props: {
       posts: data.posts
-    }
+    },
+    revalidate: 20
   }
 }
