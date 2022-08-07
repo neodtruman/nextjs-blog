@@ -3,9 +3,9 @@ import fs from 'fs/promises';
 
 export default function PostDetailPage(props) {
   const { post } = props;
-  if (!post) {
-    return <p>Loading...</p>;
-  }
+  // if (!post) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <h1>Detail Page - {post.title}</h1>
@@ -33,6 +33,6 @@ export async function getStaticPaths() {
       { params: { id: '1' } },
       { params: { id: '3' } }
     ],
-    fallback: true
+    fallback: 'blocking'
   }
 }
