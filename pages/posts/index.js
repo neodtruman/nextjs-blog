@@ -1,31 +1,35 @@
-import { Fragment, useEffect, useState } from "react";
+import Link from "next/link";
+import { Fragment } from "react";
+import path from 'path';
+import fs from 'fs';
 
-export default function AllPostsPage() {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetch('/posts.json')
-      .then(response => response.json())
-      .then(data => {
-        setPosts(data.posts);
-        setIsLoading(false);
-      })
-  }, []);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
+export default function AllPostsPage(props) {
+  const { posts } = props;
   return (
     <Fragment>
       <h1>All Posts</h1>
       <ul>
-        {posts.map(post =>
-          <li key={post.id}>{post.title}</li>
+        {posts && posts.map(post =>
+          <li key={post.id}>
+            <Link href={`/posts/${post.id}`}>
+              <a>{post.title}</a>
+            </Link>
+          </li>
         )}
       </ul>
     </Fragment>
   );
+}
+
+export function getStaticProps() {
+  // process.cwd() will return the root directory
+  const filePath = path.join(process.cwd(), 'public', 'posts.json');
+  const jsonData = fs.readFileSync(filePath);
+  const data = JSON.parse(jsonData);
+
+  return {
+    props: {
+      posts: data.posts
+    }
+  }
 }
