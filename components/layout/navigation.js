@@ -1,7 +1,12 @@
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import styles from './navigation.module.css';
 
 export default function Navigation() {
+  function logoutHandler() {
+    signOut();
+  }
+
   return (
     <header className={styles.header}>
       <Link href="/">
@@ -18,6 +23,10 @@ export default function Navigation() {
             <Link href="/posts/create" >
               <a className={styles['nav-link']}>Create Post</a>
             </Link>
+          </li>
+          <li>
+            <span className={styles['nav-link']}
+              onClick={logoutHandler}>Log Out</span>
           </li>
           <li>
             <Link href="/user/login">
