@@ -1,40 +1,22 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-import path from 'path';
-import fs from 'fs/promises';
+export default function PostDetailPage() {
+  const [post, setPost] = useState(null);
+  const router = useRouter();
+  const postId = router.query.id;
 
-export default function PostDetailPage(props) {
-  const { post } = props;
+  useEffect(() => {
+    fetch(`/api/posts/${postId}`)
+      .then(response => response.json())
+      .then(data => setPost(data.post))
+  }, [postId]);
+
+  if (!post) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <h1>Detail Page - {post.title}</h1>
   );
-}
-
-export async function getStaticProps(context) {
-  const postId = context.params.id;
-
-  const filePath = path.join(process.cwd(), 'public', 'posts.json');
-  const jsonData = await fs.readFile(filePath);
-  const data = JSON.parse(jsonData);
-
-  const post = data.posts.find(p => p.id === postId);
-  if (!post) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      post
-    }
-  }
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [
-      { params: { id: '1' } },
-      { params: { id: '3' } }
-    ],
-    fallback: 'blocking'
-  }
 }

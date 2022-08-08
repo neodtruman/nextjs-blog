@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "slug": "post-one",
+    "title": "Post 1",
+    "thumb": "1.jpg",
+    "excerpt": "Excerpt 1",
+    "content": "Content 1",
+    "date": "2022-08-06"
+  },
+  {
+    "slug": "post-two",
+    "title": "Post 2",
+    "thumb": "2.jpg",
+    "excerpt": "Excerpt 2",
+    "content": "Content 2",
+    "date": "2022-08-08"
+  }
+]
