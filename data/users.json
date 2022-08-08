@@ -1,0 +1,10 @@
+[
+  {
+    "email": "admin@b.com",
+    "password": "$2a$12$vHSj6GU4mcSsoN17GqSWb.GPS9LRR/ETyRMhUEp8M9mk/7N2KIrK6"
+  },
+  {
+    "email": "user@b.com",
+    "password": "$2a$12$gnZmu2TX.l5/A.rpYaNR8.FM.z6ggXscVQa/kaPoU4aNjZj17y3jK"
+  }
+]
