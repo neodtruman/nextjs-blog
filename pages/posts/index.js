@@ -10,8 +10,8 @@ export default function AllPostsPage(props) {
       <h1>All Posts</h1>
       <ul>
         {posts && posts.map(post =>
-          <li key={post.id}>
-            <Link href={`/posts/${post.id}`}>
+          <li key={post.slug}>
+            <Link href={`/posts/${post.slug}`}>
               <a>{post.title}</a>
             </Link>
           </li>
@@ -25,13 +25,13 @@ export function getStaticProps() {
   let now = new Date();
   console.log("getStaticProps was called at ", now.toString());
 
-  const filePath = path.join(process.cwd(), 'public', 'posts.json');
+  const filePath = path.join(process.cwd(), 'data', 'posts.json');
   const jsonData = fs.readFileSync(filePath);
   const data = JSON.parse(jsonData);
 
   return {
     props: {
-      posts: data.posts
+      posts: data
     },
     revalidate: 20
   }
