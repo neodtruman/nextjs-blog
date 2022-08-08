@@ -1,0 +1,5 @@
+.error-msg {
+  color: var(--theme-color-light);
+  text-align: right;
+  margin-top: 3px;
+}
