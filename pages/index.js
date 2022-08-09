@@ -1,19 +1,19 @@
-import { Fragment } from "react";
+
+import { getFeaturedPosts } from '../utils/posts-util';
+import FeaturedPosts from "../components/home/featured-posts";
 
 export default function Home(props) {
   return (
-    <Fragment>
-      <h1>Home Page</h1>
-      <div>{props.message}</div>
-    </Fragment>
+    <FeaturedPosts posts={props.posts} />
   )
 }
 
-export async function getServerSideProps() {
-  console.log('getServerSideProps called')
+export function getStaticProps() {
+  const featuredPosts = getFeaturedPosts();
   return {
     props: {
-      message: 'This is a test message'
-    }
+      posts: featuredPosts
+    },
+    revalidate: 3600
   }
 }

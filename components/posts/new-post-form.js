@@ -1,4 +1,7 @@
-import { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
+import ImageSelector from "./image-selector/image-selector";
+import styles from './new-post-form.module.css';
+import Checkbox from "../ui/checkbox/checkbox";
 
 function NewPostForm() {
   const [slugLabel, setSlugLabel] = useState('<slug>');
@@ -7,28 +10,56 @@ function NewPostForm() {
   const thumbnailInputRef = useRef();
   const excerptInputRef = useRef();
   const contentInputRef = useRef();
+  const formRef = useRef();
+
+  const [imageSelectors, setImageSelectors] = useState([1]);
+  const [images, setImages] = useState([]);
+
+  function addImage(addedImage) {
+    setImages([...images, addedImage]);
+  }
+
+  function removeImage(removedImage) {
+    const filterdImages = images.filter(i => i.name !== removedImage.name);
+    setImages(filterdImages);
+  }
+
+  function setThumbnail(fileName) {
+    thumbnailInputRef.current.value = fileName;
+  }
+
+  function addImageSelector() {
+    setImageSelectors([...imageSelectors, 1])
+  }
 
   function updatePostUrl() {
     setSlugLabel(slugInputRef.current.value);
   }
 
+  function isValidForm() {
+    if (images.length == 0
+      || slugInputRef.current.value.trim().length === 0
+      || titleInputRef.current.value.trim().length === 0
+      || thumbnailInputRef.current.value.trim().length === 0
+      || excerptInputRef.current.value.trim().length === 0
+      || contentInputRef.current.value.trim().length === 0) {
+      return false;
+    }
+    return true;
+  }
+
   function submitPost(event) {
     event.preventDefault();
+    if (!isValidForm()) {
+      alert('Please select at least one image and fill in all the fields!');
+      return;
+    }
 
-    const formData = {
-      slug: slugInputRef.current.value,
-      title: titleInputRef.current.value,
-      thumb: thumbnailInputRef.current.value,
-      excerpt: excerptInputRef.current.value,
-      content: contentInputRef.current.value,
-    };
+    const formData = new FormData(formRef.current);
 
     fetch('/api/posts', {
       method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body: formData
     })
       .then(response => response.json())
       .then(data => console.log(data));
@@ -37,7 +68,22 @@ function NewPostForm() {
   return (
     <Fragment>
       <h1>Create New Post</h1>
-      <form onSubmit={submitPost}>
+      <form onSubmit={submitPost} ref={formRef}>
+        {imageSelectors.map((img, index) => React.createElement(
+          ImageSelector,
+          {
+            key: `image-selector-${index}`,
+            imageList: images,
+            addImage: addImage,
+            removeImage: removeImage,
+            setThumbnail: setThumbnail
+          })
+        )}
+        <div className={styles['btn-add-selector']}
+          onClick={addImageSelector}>
+          <span>Add Image Selector</span>
+        </div>
+
         <div className="row">
           <div className="col-label">
             <label htmlFor="slug">Slug</label>
@@ -95,10 +141,16 @@ function NewPostForm() {
               ref={contentInputRef}></textarea>
           </div>
         </div>
+        <div className="row">
+          <div className="col-label"></div>
+          <div className="col-input">
+            <Checkbox label="Is Featured?" name="isFeatured" />
+          </div>
+        </div>
+
         <input type="submit" value="Submit" />
       </form>
     </Fragment>
   );
 }
-
 export default NewPostForm;
