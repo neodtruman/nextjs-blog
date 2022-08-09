@@ -32,6 +32,7 @@ export const authOptions = {
         }; // to be included in the JWT
       }
     })
-  ]
+  ],
+  secret: process.env.NEXTAUTH_SECRET
 }
 export default NextAuth(authOptions);
