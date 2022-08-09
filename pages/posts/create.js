@@ -1,5 +1,5 @@
-import { getSession } from 'next-auth/react';
 import NewPostForm from "../../components/posts/new-post-form";
+import { adminGuard } from "../../utils/authen-guard";
 
 export default function CreatePostPage() {
   return (
@@ -8,17 +8,6 @@ export default function CreatePostPage() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/user/login',
-        permanent: true
-      }
-    }
-  }
-
-  return {
-    props: {}
-  }
+  const result = await adminGuard(context);
+  return result;
 }

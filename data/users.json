@@ -1,7 +1,8 @@
 [
   {
     "email": "admin@b.com",
-    "password": "$2a$12$vHSj6GU4mcSsoN17GqSWb.GPS9LRR/ETyRMhUEp8M9mk/7N2KIrK6"
+    "password": "$2a$12$vHSj6GU4mcSsoN17GqSWb.GPS9LRR/ETyRMhUEp8M9mk/7N2KIrK6",
+    "role": "admin"
   },
   {
     "email": "user@b.com",
