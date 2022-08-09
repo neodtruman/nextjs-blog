@@ -1,8 +1,16 @@
+
+import { getSession } from 'next-auth/react';
 import path from 'path';
 import fs from 'fs';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
+    return;
+  }
+
+  const session = await getSession({ req });
+  if (!session) {
+    res.status(401).json({ message: 'Not authenticated!' });
     return;
   }
 
