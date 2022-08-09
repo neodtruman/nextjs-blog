@@ -1,11 +1,19 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useContext } from "react";
+import NotificationContext from "../../store/notification-context";
 
 function ChangePasswordForm() {
+  const notificationCtx = useContext(NotificationContext);
+
   const oldPasswordInputRef = useRef();
   const newPasswordInputRef = useRef();
 
   function handleFormSubmission(event) {
     event.preventDefault();
+    notificationCtx.showNotification({
+      title: 'In progress...',
+      message: 'Your new password is being proceeded...',
+      status: 'pending'
+    });
 
     const reqBody = {
       oldPassword: oldPasswordInputRef.current.value,
@@ -20,7 +28,13 @@ function ChangePasswordForm() {
       }
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        notificationCtx.showNotification({
+          title: 'Finished',
+          message: data.message,
+          status: data.status
+        });
+      });
   }
 
   return (
