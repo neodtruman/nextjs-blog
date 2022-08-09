@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import vs from 'react-syntax-highlighter/dist/cjs/styles/prism/vs';
 
+import Image from 'next/image';
 import { Fragment } from 'react';
 import styles from './post-detail.module.css';
 
@@ -16,9 +17,11 @@ export default function PostDetail({ post }) {
           if (firstChild && firstChild.tagName === 'img') {
             return (
               <div className={styles.image}>
-                <img
+                <Image
                   src={`/images/posts/${post.slug}/${firstChild.properties.src}`}
                   alt={firstChild.properties.alt}
+                  width={600}
+                  height={300}
                 />
               </div>
             )

@@ -1,4 +1,3 @@
-
 import { Fragment } from "react";
 import Head from "next/head";
 
@@ -10,11 +9,11 @@ export default function PostDetailPage(props) {
   if (!post) {
     return <p>Loading...</p>
   }
-
   return (
     <Fragment>
       <Head>
         <title>{post.title}</title>
+        <meta name='description' content={post.excerpt} />
       </Head>
       <PostDetail post={post} />
     </Fragment>
